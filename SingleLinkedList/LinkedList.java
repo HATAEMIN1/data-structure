@@ -1,6 +1,7 @@
 package SingleLinkedList;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedList<E> implements ListI<E> {
     class Node<E>{
@@ -58,6 +59,7 @@ public class LinkedList<E> implements ListI<E> {
         }else {
             head = head.next;
         }
+        currentSize--;
         return tmp;
     }
 
@@ -67,7 +69,7 @@ public class LinkedList<E> implements ListI<E> {
             return null;
         }
         if(head==tail){ //자료 구조에 단 하나의 요소가 들어 있을 때
-            removeFirst();
+            return removeFirst();
         }
         Node<E> current = head;
         Node<E> previous = null;
@@ -91,7 +93,7 @@ public class LinkedList<E> implements ListI<E> {
                     return removeFirst();
                 }
                 if(current==tail){ //마지막 노드를 제거
-                    removeLast();
+                    return removeLast();
                 }
                 currentSize--;
                 previous.next = current.next;
@@ -133,7 +135,28 @@ public class LinkedList<E> implements ListI<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new IteratorHelper();
+    }
+    class IteratorHelper<E> implements Iterator<E> {
+        Node<E> index;
+        public IteratorHelper(){
+            index = (Node<E>) head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return (index!=null);
+        }
+
+        @Override
+        public E next() {
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }
+            E val = index.data;
+            index = index.next;
+            return val;
+        }
     }
 
 
