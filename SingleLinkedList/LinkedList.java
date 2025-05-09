@@ -158,6 +158,9 @@ public class LinkedList<E> implements ListI<E> {
             return val;
         }
     }
+    public int getSize() {
+        return currentSize;
+    }
 
 
 /*
